@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Box"))
         {
+            SpawnManager.Instance.ResetItem();
             AudioManager.Instance.OnGameover();
             GameManager.Instance.SetState(GameState.Gameover);
         }

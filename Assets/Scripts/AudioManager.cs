@@ -57,6 +57,12 @@ public class AudioManager : MonoBehaviour
         SFXSource.clip = over;
         SFXSource.Play();
     }
+    public void PauseBackgroundMusic(bool active)
+    {
+        if (active)
+        musicSoure.Pause();
+        else musicSoure.Play();
+    }
     
 }
 

@@ -62,16 +62,18 @@ public class GameManager : MonoBehaviour
         gameover.SetActive(state == GameState.Gameover);
         if (state == GameState.Pause)
         {
+            AudioManager.Instance.PauseBackgroundMusic(true);
             Time.timeScale = 0;
         }
         else if (state == GameState.Home || state == GameState.Gameover)
-        {
-            spawn.SetActive(false);
+        {         
+                spawn.SetActive(false);
         }
         else
         {
             Time.timeScale = 1;
-            spawn.SetActive(true);
+            AudioManager.Instance.PauseBackgroundMusic(false);
+
         }
 
     }
@@ -79,7 +81,9 @@ public class GameManager : MonoBehaviour
     {
         if (state == GameState.Gameplay)
         {
-            score += Time.fixedDeltaTime * 0.5f;
+            spawn.SetActive(true);
+
+            score += Time.fixedDeltaTime * 0.5f + Time.fixedDeltaTime;
             txtScore.SetText("Score: " + Mathf.Round(score));
         }
 
@@ -100,6 +104,7 @@ public class GameManager : MonoBehaviour
     public void Btn_Home()
     {
         AudioManager.Instance.OnPressBtn();
+        SpawnManager.Instance.ResetItem();
         SetState(GameState.Home);
         score = 0;
     }

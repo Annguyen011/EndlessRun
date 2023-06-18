@@ -38,6 +38,18 @@ public class ItemPool
             inactive.Add(obj);
         }
     }
+    public void Reset()
+    {
+        if (active.Count > 0 )
+        {
+            foreach(Item olditem in active)
+            {
+                GameObject.Destroy(olditem.gameObject);
+            }
+        }
+        active.Clear();
+        inactive.Clear();
+    }
 }
 public class SpawnManager : MonoBehaviour
 {
@@ -72,16 +84,25 @@ public class SpawnManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        SpawnBox();
+    }
+    public void SpawnBox()
+    {
         timer += Time.fixedDeltaTime;
         ranInt = UnityEngine.Random.Range(0, spawnPos.Length);
         if (timer <= timeBetweenSpawn) return;
         timer = 0;
         float upLevelSpeed = timeBetweenSpawn - 0.05f;
         timeBetweenSpawn = upLevelSpeed;
-        if (timeBetweenSpawn <= 0.1) {
-            timeBetweenSpawn = 0.1f;
+        if (timeBetweenSpawn <= 0.5)
+        {
+            timeBetweenSpawn = 0.5f;
         }
         itemPool.Spawn(spawnPos[ranInt].position, transform);
+    }
+    public void ResetItem()
+    {
+        itemPool.Reset();
     }
     public void ReleaseItem(Item obj)
     {
