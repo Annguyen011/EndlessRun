@@ -18,7 +18,7 @@ public class ItemPool
             inactive.Add(newObj);
             return newObj;
         }
-        else 
+        else
         {
             Item oldItem = inactive[0];
             oldItem.gameObject.SetActive(true);
@@ -40,9 +40,9 @@ public class ItemPool
     }
     public void Reset()
     {
-        if (active.Count > 0 )
+        if (active.Count > 0)
         {
-            foreach(Item olditem in active)
+            foreach (Item olditem in active)
             {
                 GameObject.Destroy(olditem.gameObject);
             }
@@ -67,20 +67,26 @@ public class SpawnManager : MonoBehaviour
     }
 
     [SerializeField] private Transform[] spawnPos;
-    [SerializeField] private ItemPool itemPool;
+    [SerializeField] private ItemPool[] itemPool;
     [SerializeField] private float timeBetweenSpawn;
     [SerializeField] private float timer;
-    int ranInt;
+    private float curTime;
+    private int ranInt;
+    private int ranInt2;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
-        else if (instance!= null)
+        else if (instance != null)
         {
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
+        curTime = timeBetweenSpawn;
     }
     private void FixedUpdate()
     {
@@ -90,22 +96,26 @@ public class SpawnManager : MonoBehaviour
     {
         timer += Time.fixedDeltaTime;
         ranInt = UnityEngine.Random.Range(0, spawnPos.Length);
+        ranInt2 = UnityEngine.Random.Range(0, itemPool.Length);
         if (timer <= timeBetweenSpawn) return;
         timer = 0;
-        float upLevelSpeed = timeBetweenSpawn - 0.05f;
-        timeBetweenSpawn = upLevelSpeed;
-        if (timeBetweenSpawn <= 0.5)
+        float upLevelSpeed = curTime - 0.05f;
+        curTime = upLevelSpeed;
+        if (curTime <= 0.5)
         {
-            timeBetweenSpawn = 0.5f;
+            curTime = 0.5f;
         }
-        itemPool.Spawn(spawnPos[ranInt].position, transform);
+
+        itemPool[ranInt2].Spawn(spawnPos[ranInt].position, transform);
+
     }
     public void ResetItem()
     {
-        itemPool.Reset();
+        itemPool[ranInt2].Reset();
     }
     public void ReleaseItem(Item obj)
     {
-        itemPool.Release(obj);
+        itemPool[ranInt2].Release(obj);
+        curTime = timeBetweenSpawn;
     }
 }

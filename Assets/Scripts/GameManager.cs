@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject spawn;
     [SerializeField] private TextMeshProUGUI txtScore;
     [SerializeField] private TextMeshProUGUI txtHighScore;
-    [SerializeField] private float score;
+    [SerializeField] public float score;
     [SerializeField] private float highScore;
     private GameState state;
     private void Awake()
@@ -66,8 +66,9 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
         }
         else if (state == GameState.Home || state == GameState.Gameover)
-        {         
-                spawn.SetActive(false);
+        {
+            spawn.SetActive(false);
+            SpawnManager.Instance.ResetItem();
         }
         else
         {

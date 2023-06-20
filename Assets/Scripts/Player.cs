@@ -45,9 +45,15 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Box"))
         {
-            SpawnManager.Instance.ResetItem();
             AudioManager.Instance.OnGameover();
             GameManager.Instance.SetState(GameState.Gameover);
+        }
+        else if (collision.gameObject.CompareTag("Food"))
+        {
+            GameManager.Instance.score++;
+            Item item;
+            collision.TryGetComponent<Item>(out item);
+            SpawnManager.Instance.ReleaseItem(item);
         }
     }
 }

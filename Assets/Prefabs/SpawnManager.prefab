@@ -49,7 +49,10 @@ MonoBehaviour:
   - {fileID: 3203644554380004380, guid: 72ee8b65046a6614a901b13af92dcf0f, type: 3}
   - {fileID: 4947345726630338511, guid: 274bf54d1aa005e4d9c387183c31eb93, type: 3}
   itemPool:
-    prefab: {fileID: 5635771773811732526, guid: 7297e1dc959019d4f911828cf9f32c78, type: 3}
+  - prefab: {fileID: 5635771773811732526, guid: 7297e1dc959019d4f911828cf9f32c78, type: 3}
+    active: []
+    inactive: []
+  - prefab: {fileID: 5635771773811732526, guid: 23c0b00e746107e4fa73b6a143977945, type: 3}
     active: []
     inactive: []
   timeBetweenSpawn: 2
