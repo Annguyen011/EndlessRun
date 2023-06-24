@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,12 +68,13 @@ public class SpawnManager : MonoBehaviour
     }
 
     [SerializeField] private Transform[] spawnPos;
-    [SerializeField] private ItemPool[] itemPool;
+    [SerializeField] private ItemPool itemPool;
     [SerializeField] private float timeBetweenSpawn;
     [SerializeField] private float timer;
     private float curTime;
     private int ranInt;
-    private int ranInt2;
+    private int ranSpawn;
+    private int ranCount;
     private void Awake()
     {
         if (instance == null)
@@ -95,8 +97,20 @@ public class SpawnManager : MonoBehaviour
     public void SpawnBox()
     {
         timer += Time.fixedDeltaTime;
-        ranInt = UnityEngine.Random.Range(0, spawnPos.Length);
-        ranInt2 = UnityEngine.Random.Range(0, itemPool.Length);
+        ranInt = UnityEngine.Random.Range(0, spawnPos.Length-1);
+        if (ranInt == ranSpawn)
+        {
+            ranCount++;
+            if (ranCount == 2)
+            {
+                ranInt = ranSpawn + 1;
+                if (ranInt > spawnPos.Length)
+                {
+                    ranInt = 0;
+                }
+                ranCount = 0;
+            }
+        }
         if (timer <= timeBetweenSpawn) return;
         timer = 0;
         float upLevelSpeed = curTime - 0.05f;
@@ -106,16 +120,20 @@ public class SpawnManager : MonoBehaviour
             curTime = 0.5f;
         }
 
-        itemPool[ranInt2].Spawn(spawnPos[ranInt].position, transform);
-
+        itemPool.Spawn(spawnPos[ranInt].position, transform);
+    }
+    public void LateUpdate()
+    {
+        ranSpawn = ranInt;
     }
     public void ResetItem()
     {
-        itemPool[ranInt2].Reset();
+        itemPool.Reset();
     }
     public void ReleaseItem(Item obj)
     {
-        itemPool[ranInt2].Release(obj);
+        itemPool.Release(obj);
         curTime = timeBetweenSpawn;
     }
+
 }

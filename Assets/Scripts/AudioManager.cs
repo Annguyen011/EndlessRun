@@ -40,6 +40,7 @@ public class AudioManager : MonoBehaviour
     {
         musicSoure.clip = backGround;
         musicSoure.Play();
+        musicSoure.volume = .5f;
 
     }
     public void OnJump()

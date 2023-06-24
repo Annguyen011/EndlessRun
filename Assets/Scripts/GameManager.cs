@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject gameover;
     [SerializeField] private GameObject spawn;
+    [SerializeField] private GameObject player;
     [SerializeField] private TextMeshProUGUI txtScore;
     [SerializeField] private TextMeshProUGUI txtHighScore;
     [SerializeField] public float score;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         else if (state == GameState.Home || state == GameState.Gameover)
         {
             spawn.SetActive(false);
+            player.SetActive(false);
             SpawnManager.Instance.ResetItem();
         }
         else
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour
         if (state == GameState.Gameplay)
         {
             spawn.SetActive(true);
-
+            player.SetActive(true);
             score += Time.fixedDeltaTime * 0.5f + Time.fixedDeltaTime;
             txtScore.SetText("Score: " + Mathf.Round(score));
         }

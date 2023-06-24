@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
             GameManager.Instance.score++;
             Item item;
             collision.TryGetComponent<Item>(out item);
-            SpawnManager.Instance.ReleaseItem(item);
         }
     }
 }
